@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const connectDB = require('./config/db');
-const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 
 // Load environment variables
 dotenv.config({ path: './config/config.env' });
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 // Mount routes
-app.use('/', indexRouter);
+app.use('/api/auth', authRouter);
 
 const server = app.listen(
   PORT,

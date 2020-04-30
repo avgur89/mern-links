@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const userSchema = new Schema({
   firstname: {
@@ -18,6 +18,12 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  links: [
+    {
+      type: Types.ObjectId,
+      ref: 'Link',
+    },
+  ],
 });
 
 module.exports = model('User', userSchema);

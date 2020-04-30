@@ -1,10 +1,11 @@
 const { body } = require('express-validator');
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 exports.registerValidators = [
-  body('email')
+  body('email', 'Enter a valid email')
+    .normalizeEmail()
     .isEmail()
-    .withMessage('Enter a valid email')
     .custom(async (value, { req }) => {
       try {
         const user = await User.findOne({ email: value });
@@ -14,26 +15,23 @@ exports.registerValidators = [
       } catch (error) {
         console.log(error);
       }
-    })
-    .normalizeEmail(),
+    }),
   body('password', 'Password must be at least 6 characters')
     .isLength({ min: 6, max: 56 })
     .isAlphanumeric()
     .trim(),
-  body('firstname')
+  body('firstname', 'First name must be at least 2 characters long')
     .isLength({ min: 2 })
-    .withMessage('Firstname must be at least 2 characters long')
     .trim(),
-  body('lastname')
+  body('lastname', 'Last name must be at least 2 characters long')
     .isLength({ min: 2 })
-    .withMessage('Firstname must be at least 2 characters long')
     .trim(),
 ];
 
 exports.loginValidators = [
-  body('email')
+  body('email', 'Enter a valid email')
+    .normalizeEmail()
     .isEmail()
-    .withMessage('Enter a valid email')
     .custom(async (value, { req }) => {
       try {
         const user = await User.findOne({ email: value });
@@ -43,10 +41,23 @@ exports.loginValidators = [
       } catch (error) {
         console.log(error);
       }
-    })
-    .normalizeEmail(),
-  body('password', 'Password must be at least 6 characters')
-    .isLength({ min: 6, max: 56 })
+    }),
+  body('password', 'Enter a password')
     .isAlphanumeric()
-    .trim(),
+    .trim()
+    .exists()
+    .custom(async (value, { req }) => {
+      try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+
+        const passwordIsMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordIsMatch) {
+          return Promise.reject('Incorrect password. Please try again');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 ];

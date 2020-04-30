@@ -1,0 +1,35 @@
+{
+  "name": "mern-links",
+  "version": "1.0.0",
+  "description": "MERN links",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avgur89/mern-links.git"
+  },
+  "keywords": [
+    "mern",
+    "links"
+  ],
+  "author": "Aleksandr Gurov <gurov.developer@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avgur89/mern-links/issues"
+  },
+  "homepage": "https://github.com/avgur89/mern-links#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.10"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.3"
+  }
+}

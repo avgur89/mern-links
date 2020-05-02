@@ -56,6 +56,7 @@ const AuthPage = () => {
                   id="email"
                   type="email"
                   name="email"
+                  value={form.email}
                   onChange={onInputChange}
                 />
                 <label htmlFor="email">Email</label>
@@ -66,6 +67,7 @@ const AuthPage = () => {
                   id="password"
                   type="password"
                   name="password"
+                  value={form.password}
                   onChange={onInputChange}
                 />
                 <label htmlFor="password">Password</label>

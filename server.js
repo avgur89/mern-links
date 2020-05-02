@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Middlewares
-app.use(express.json());
+app.use(express.json({ extended: true }));
 
 // Mount routes
 app.use('/api/auth', authRouter);

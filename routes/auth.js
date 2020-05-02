@@ -20,12 +20,10 @@ router.post('/register', registerValidators, async (req, res) => {
       });
     }
 
-    const { firstname, lastname, email, password } = req.body;
+    const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
-      firstname,
-      lastname,
       email,
       password: hashedPassword,
     });

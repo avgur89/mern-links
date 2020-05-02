@@ -1,15 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHttp } from '../hooks/http.hook';
+import { useMessage } from '../hooks/message.hook';
 
 const AuthPage = () => {
+  const message = useMessage();
+  const { loading, request, error, clearError } = useHttp();
   const [form, setForm] = useState({
-    firstname: '',
-    lastname: '',
     email: '',
     password: '',
   });
 
+  useEffect(() => {
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
+
   const onInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onRegisterHandler = async () => {
+    try {
+      const data = await request('/api/auth/register', 'POST', { ...form });
+      message(data.message);
+    } catch (error) {}
+  };
+
+  const onLoginHandler = async () => {
+    try {
+      const data = await request('/api/auth/login', 'POST', { ...form });
+      message(data.message);
+    } catch (error) {}
   };
 
   return (
@@ -22,26 +43,6 @@ const AuthPage = () => {
               Authorization
             </span>
             <div>
-              <div className="input-field">
-                <input
-                  placeholder="Enter first name"
-                  id="firstname"
-                  type="text"
-                  name="firstname"
-                  onChange={onInputChange}
-                />
-                <label htmlFor="firstname">First Name</label>
-              </div>
-              <div className="input-field">
-                <input
-                  placeholder="Enter last name"
-                  id="lastname"
-                  type="text"
-                  name="lastname"
-                  onChange={onInputChange}
-                />
-                <label htmlFor="lastname">Last Name</label>
-              </div>
               <div className="input-field">
                 <input
                   placeholder="Enter email"
@@ -65,10 +66,21 @@ const AuthPage = () => {
             </div>
           </div>
           <div className="card-action">
-            <button className="btn yellow darken-4" style={{ marginRight: 10 }}>
+            <button
+              className="btn yellow darken-4"
+              style={{ marginRight: 10 }}
+              onClick={onLoginHandler}
+              disabled={loading}
+            >
               Login
             </button>
-            <button className="btn grey lighten-1 black-text">Register</button>
+            <button
+              className="btn grey lighten-1 black-text"
+              onClick={onRegisterHandler}
+              disabled={loading}
+            >
+              Register
+            </button>
           </div>
         </div>
       </div>

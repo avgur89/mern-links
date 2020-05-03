@@ -46,7 +46,7 @@ router.get('/', auth, async (req, res) => {
 // @desc    Get single link
 // @route   GET /api/link/id
 // @access  Private
-router.get('/:id ', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const link = await Link.findById(req.params.id);
 
